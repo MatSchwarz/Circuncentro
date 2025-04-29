@@ -1,3 +1,16 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import cvxpy as cp
+import pandas as pd
+from matplotlib.patches import Polygon
+import matplotlib.colors as mcolors
+import matplotlib.patches as mpatches
+from numpy.linalg import solve
+import matplotlib.pyplot as plt
+from scipy import optimize
+from scipy.optimize import linprog
+from funcoes_auxiliares import *
+
 def gradiente_descendente_circuncentrico(x0, c, A,b, tol=1e-6, max_iter=1000):
 
     # Inicializa alguns parâmetros
