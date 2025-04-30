@@ -76,9 +76,11 @@ def grafico1(xfinal, A, b):
     handles.append(feasible_patch)
 
     # Legenda com estilo melhorado
-    legend = ax.legend(handles=handles, loc='upper right', fontsize=12, frameon=True, facecolor='white', framealpha=0.9)
+    legend = ax.legend(handles=handles, loc='upper left', bbox_to_anchor=(1.05, 1), fontsize=12, 
+                       frameon=True, facecolor='white', framealpha=0.9)
     legend.set_title('Elementos do Gráfico', prop={'size': 14, 'weight': 'bold'})
 
+    
     plt.show()
 
 
