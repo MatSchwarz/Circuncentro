@@ -64,3 +64,12 @@ def check_active_constraints(x, A, b, tol=1e-6):
         if abs(np.dot(restricao, x) - b[i]) <= 1e-10:
             active_constraints.append(i)
     return active_constraints
+
+
+
+def is_feasible(x, y, A, b):
+    point = np.array([x, y])
+    for i in range(len(A)):
+        if np.dot(A[i], point) > b[i] + 1e-10: 
+            return False
+    return True
