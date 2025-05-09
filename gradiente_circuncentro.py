@@ -44,6 +44,10 @@ def gradiente_descendente_circuncentrico(x0, c, A,b, tol=1e-6, max_iter=1000):
         else:
             restricoes = np.array([grad_normalizado])
         direcao = circuncentro(-restricoes)
+
+        # Verificar convergência
+        if np.linalg.norm(direcao) < tol:
+            break
         vetores_direcao.append(direcao)
 
         alphas = []
@@ -81,8 +85,6 @@ def gradiente_descendente_circuncentrico(x0, c, A,b, tol=1e-6, max_iter=1000):
         f_val = np.dot(c, x)
         valores_funcao_objetivo.append(f_val)
         
-        # Verificar convergência
-        if np.linalg.norm(direcao) < tol:
-            break
+
         
-    return historico_solucao, valores_funcao_objetivo, restricoes_ativas, vetores_direcao, lista_alphas,tamanho_passo
+    return historico_solucao, valores_funcao_objetivo, restricoes_ativas, vetores_direcao, lista_alphas,tamanho_passo, grad

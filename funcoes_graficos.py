@@ -1,6 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import cvxpy as cp
 import pandas as pd
 from matplotlib.patches import Polygon
 import matplotlib.colors as mcolors
@@ -10,7 +7,7 @@ from scipy import optimize
 from scipy.optimize import linprog
 from funcoes_auxiliares import *
 
-def grafico1(xfinal, A, b):
+def grafico1(xfinal, A, b,grad):
     
     plt.style.use('seaborn-v0_8-whitegrid')
     fig, ax = plt.subplots(figsize=(10, 8))
@@ -45,6 +42,12 @@ def grafico1(xfinal, A, b):
         color='darkred', linewidth=1.5, markersize=3, 
         markerfacecolor='white', markeredgewidth=1, label='Iterações de x_final')
 
+    # criar uma seta para -grad que fica no canto do grafico
+    ax.quiver(0,0, -grad[0], -grad[1], color='blue', label='Direção do Gradiente')
+
+    # Adicionar o ponto final
+    ax.scatter(xfinal_array[-1, 0], xfinal_array[-1, 1], 
+        color='blue', marker='o', linewidth=2, label='Ponto Final',alpha=1)
     # Parte do sombreado no gráfico
     # Criar uma grade para verificar a região factível
     xx, yy = np.meshgrid(np.linspace(x_min, x_max, 200), np.linspace(y_min, y_max, 200))
