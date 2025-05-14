@@ -11,7 +11,7 @@ from scipy import optimize
 from scipy.optimize import linprog
 from funcoes_auxiliares import *
 
-def gradiente_descendente_circuncentrico2(x0, c, A,b, tol=1e-6, max_iter=1000):
+def gradiente_descendente_circuncentrico_w(x0, c, A,b, tol=1e-6, max_iter=1000):
 
     # Inicializa alguns parâmetros
     x = np.array(x0, dtype=float)
@@ -80,7 +80,7 @@ def gradiente_descendente_circuncentrico2(x0, c, A,b, tol=1e-6, max_iter=1000):
         if i%2 != 0:
             p = 1
         else:
-            p = 0.9
+            p = 0.6
         x = x + alpha * direcao * p
         tamanho_passo.append(np.linalg.norm(x - x_old))
         historico_solucao.append(x.copy())
