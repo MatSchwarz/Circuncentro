@@ -9,6 +9,7 @@ from numpy.linalg import solve
 import matplotlib.pyplot as plt
 from scipy import optimize
 from scipy.optimize import linprog
+from scipy.linalg import null_space
 
 def circuncentro(x):
 
@@ -73,3 +74,25 @@ def is_feasible(x, y, A, b):
         if np.dot(A[i], point) > b[i] + 1e-10: 
             return False
     return True
+
+def calcular_direcao_aresta(A_ativos, c):
+
+    if A_ativos.shape[0] == 0:
+
+        return -c / np.linalg.norm(c)
+
+    Z = null_space(A_ativos)
+
+    if Z.shape[1] == 0:
+        return np.zeros(len(c))
+
+    d_proj = Z.dot(Z.T.dot(-c))
+
+    if np.dot(c, d_proj) >= -1e-8: 
+        return np.zeros(len(c))
+
+    norma = np.linalg.norm(d_proj)
+    if norma < 1e-8:
+        return np.zeros(len(c))
+        
+    return d_proj / norma
