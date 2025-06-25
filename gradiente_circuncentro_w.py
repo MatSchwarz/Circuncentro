@@ -1,14 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import cvxpy as cp
 import pandas as pd
 from matplotlib.patches import Polygon
 import matplotlib.colors as mcolors
 import matplotlib.patches as mpatches
-from numpy.linalg import solve
 import matplotlib.pyplot as plt
 from scipy import optimize
-from scipy.optimize import linprog
 from funcoes_auxiliares import *
 
 def gradiente_descendente_circuncentrico_w(x0, c, A,b, tol=1e-6, max_iter=1000):
@@ -26,6 +23,7 @@ def gradiente_descendente_circuncentrico_w(x0, c, A,b, tol=1e-6, max_iter=1000):
     lista_alphas = []
     tamanho_passo = []
     valores_funcao_objetivo = [np.dot(c, x)]
+    index_ativos = []
 
 
     for i in range(max_iter):
@@ -33,8 +31,9 @@ def gradiente_descendente_circuncentrico_w(x0, c, A,b, tol=1e-6, max_iter=1000):
         i_ativos = check_active_constraints(x, A, b, tol)
         # Deixa os vetores das restrições unitários
         restricoes = A[i_ativos].astype(float)
-        restricoes_ativas.append(restricoes)
-    
+        restricoes_ativas.append(restricoes.copy())
+        index_ativos.append(i_ativos.copy())
+
         for j in range(len(restricoes)):
             restricoes[j] = restricoes[j] / np.linalg.norm(restricoes[j])
 
@@ -78,9 +77,9 @@ def gradiente_descendente_circuncentrico_w(x0, c, A,b, tol=1e-6, max_iter=1000):
         # Atualizar a solução
         x_old = x.copy()
         if i%2 != 0:
-            p = 1
-        else:
             p = 0.6
+        else:
+            p = 1
         x = x + alpha * direcao * p
         tamanho_passo.append(np.linalg.norm(x - x_old))
         historico_solucao.append(x.copy())
@@ -88,7 +87,6 @@ def gradiente_descendente_circuncentrico_w(x0, c, A,b, tol=1e-6, max_iter=1000):
         # Calcular o valor da função objetivo
         f_val = np.dot(c, x)
         valores_funcao_objetivo.append(f_val)
-        
 
-        
-    return historico_solucao, valores_funcao_objetivo, restricoes_ativas, vetores_direcao, lista_alphas,tamanho_passo, grad
+
+    return historico_solucao, valores_funcao_objetivo, index_ativos, restricoes_ativas, vetores_direcao, lista_alphas, tamanho_passo, grad

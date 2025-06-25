@@ -1,14 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import cvxpy as cp
 import pandas as pd
 from matplotlib.patches import Polygon
 import matplotlib.colors as mcolors
 import matplotlib.patches as mpatches
-from numpy.linalg import solve
 import matplotlib.pyplot as plt
 from scipy import optimize
-from scipy.optimize import linprog
 from funcoes_auxiliares import *
 
 def gradiente_descendente_circuncentrico(x0, c, A,b, tol=1e-6, max_iter=1000):
@@ -26,6 +23,7 @@ def gradiente_descendente_circuncentrico(x0, c, A,b, tol=1e-6, max_iter=1000):
     lista_alphas = []
     tamanho_passo = []
     valores_funcao_objetivo = [np.dot(c, x)]
+    index_ativos = []
 
 
     for i in range(max_iter):
@@ -34,7 +32,8 @@ def gradiente_descendente_circuncentrico(x0, c, A,b, tol=1e-6, max_iter=1000):
         # Deixa os vetores das restrições unitários
         restricoes = A[i_ativos].astype(float)
         restricoes_ativas.append(restricoes)
-    
+        index_ativos.append(i_ativos)
+
         for i in range(len(restricoes)):
             restricoes[i] = restricoes[i] / np.linalg.norm(restricoes[i])
 
@@ -86,5 +85,5 @@ def gradiente_descendente_circuncentrico(x0, c, A,b, tol=1e-6, max_iter=1000):
         valores_funcao_objetivo.append(f_val)
         
 
-        
-    return historico_solucao, valores_funcao_objetivo, restricoes_ativas, vetores_direcao, lista_alphas,tamanho_passo, grad
+
+    return historico_solucao, valores_funcao_objetivo, index_ativos, restricoes_ativas, vetores_direcao, lista_alphas, tamanho_passo, grad
