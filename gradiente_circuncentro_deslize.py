@@ -31,7 +31,7 @@ def gradiente_descendente_circuncentrico_modificado(x0, c, A, b, tol=1e-6, max_i
         tomar_passo_simplex = False
         if i >= 2:
             if index_ativos_hist[-1] == index_ativos_hist[-3]:
-                print(f"Iteração {i}: Ciclagem detectada! Acionando passo do simplex.")
+                #print(f"Iteração {i}: Ciclagem detectada! Acionando passo do simplex.")
                 tomar_passo_simplex = True
 
         A_ativos_raw = A[i_ativos].astype(float)
@@ -57,7 +57,7 @@ def gradiente_descendente_circuncentrico_modificado(x0, c, A, b, tol=1e-6, max_i
             direcao = circuncentro(-restricoes)
 
         if np.linalg.norm(direcao) < tol:
-            print(f"Iteração {i}: Convergência alcançada. Norma da direção < {tol}")
+            #print(f"Iteração {i}: Convergência alcançada. Norma da direção < {tol}")
             break
         vetores_direcao.append(direcao)
 
@@ -71,7 +71,7 @@ def gradiente_descendente_circuncentrico_modificado(x0, c, A, b, tol=1e-6, max_i
             alphas.append(alpha)
 
         if not alphas:
-            print("Problema não limitado na direção de descida")
+            #print("Problema não limitado na direção de descida")
             break
 
         alpha = min(alphas)
